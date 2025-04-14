@@ -38,6 +38,9 @@ const addOneUser = async (username, password) =>
 const addData = ({id, Firstname, Surname, userid}) =>
     sendQuery(`INSERT INTO data (id, Firstname, Surname, userid) VALUES (?, ?, ?, ?)`, true, id, Firstname, Surname, userid);
 
+const getUsersRecords = async () =>
+    sendQuery(`SELECT * FROM users_records`);
+
 /*
 const getUserByName = (username) => 
     sendQuery(`SELECT * FROM users WHERE username = ?`, false, username);
@@ -53,6 +56,7 @@ export {
     getDataById,
     addData,
     logonUsers,
+    getUsersRecords
 //    getUserByName,
 //    deleteData,
 }
