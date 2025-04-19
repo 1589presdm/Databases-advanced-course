@@ -4,6 +4,7 @@ import {
   getDataById,
   addData,
   getUsersRecords,
+  addManyData,
 } from "../database.js";
 
 let router = Router();
@@ -33,6 +34,21 @@ router.get("/users_records", async (req, res) => {
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: "Error fetching users records" });
+  }
+});
+
+router.post("/addmany/:count", async (req, res) => {
+  try {
+    const count = parseInt(req.params.count);
+    if (isNaN(count) || count <= 0) {
+      return res.status(400).json({ error: "Invalid count" });
+    }
+
+    await addManyData(count);
+    res.json({ message: `Added ${count} random users to data.` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Database error" });
   }
 });
 
