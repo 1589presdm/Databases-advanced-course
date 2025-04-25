@@ -42,7 +42,12 @@ export async function getAllUsers() {
 
 export async function findOneUser(username) {
   const db = await connect();
-  return db.collection("users").findOne({ username: username });
+  return db
+    .collection("users")
+    .find({ username })
+    .project({ username: 1, password: 1, _id: 0 })
+    .toArray()
+    .then((results) => results[0]);
 }
 
 export async function getUsersRecords() {
@@ -61,7 +66,7 @@ export async function getUsersRecords() {
       {
         $project: {
           username: 1,
-          users_records: { $size: "$records" },
+          count: { $size: "$records" },
         },
       },
     ])
